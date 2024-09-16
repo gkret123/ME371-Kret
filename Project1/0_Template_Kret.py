@@ -9,12 +9,17 @@ def load_book_data(filename):
     Returns:
         list of dict: List of dictionaries containing book properties
     """
-    with open(filename, 'r') as file:
-        reader = csv.DictReader(file)
-    return reader
+    try:
+        with open(filename, 'r') as file:
+            reader = csv.DictReader(file)
+            return [row for row in reader]
+        
+    except FileNotFoundError:
+        print(f"'\n' The file {filename} could not be found. Please check the file input and try again.") 
+
     # TODO: Implement CSV file reading
     pass
-load_book_data('')
+print(load_book_data('Project1/boks.csv'))
 
 
 
