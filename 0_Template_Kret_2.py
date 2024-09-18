@@ -1,9 +1,6 @@
 import csv
 import json
 
-
-book_data = []
-
 def load_book_data(filename):
     """
     Read book data from a CSV file.
@@ -12,21 +9,18 @@ def load_book_data(filename):
     Returns:
         list of dict: List of dictionaries containing book properties
     """
+
     try:
         with open(filename, 'r') as file:
             reader = csv.DictReader(file)
             book_data = [row for row in reader]
+            print("CSV file has been read successfully! \n")
             return book_data
-        
+                    
     except FileNotFoundError:
         print(f"'\n' The file {filename} could not be found. Please check the file input and try again.") 
 
-book_data = load_book_data('Project1/books.csv')
-print(f'Here is a list of dictionaries containg books and their properties: "\n" {book_data} "\n" ')
-
-
-
-
+'''--------------------------------------------------------------------------------------------------------------------'''
 
 def calculate_discount_price(books, discount_rate):
     """
@@ -37,22 +31,11 @@ def calculate_discount_price(books, discount_rate):
     Returns:
         list of dict: Updated list of book dictionaries with discounted price
     """
-    for book in range(len(books)):
-        
-        book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate/100))),'.2f')
-
-        print(book)
+    for book in books:
+        book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate))),'.2f')
     return books
 
-book_data_discount = calculate_discount_price(book_data, 10)
-print(f'Here is a list of dictionaries containg books and their properties with a discount applied: "\n" {book_data_discount} "\n"')
-
-
-
-
-
-
-
+    """--------------------------------------------------------------------------------------------------------------------"""
 
 def find_unique_genres(books):
     """
@@ -62,19 +45,8 @@ def find_unique_genres(books):
     Returns:
         set: Set of unique genres
     """
-    unique_genres = set()
-    
-    for book in books:
-        # Get the genre, assuming it's stored under the key 'genre'
-        genre = book.get('genre')
-        if genre:
-            unique_genres.add(genre)
-    
+    unique_genres = {book['genre'] for book in books if 'genre' in book}
     return unique_genres 
-
-print(find_unique_genres(book_data))
-
-
 
 def filter_books_by_year(books, start_year, end_year):
     """
@@ -86,17 +58,11 @@ def filter_books_by_year(books, start_year, end_year):
     Returns:
         list of dict: Filtered list of book dictionaries
     """
-
-    books_in_range = list(filter(lambda x: x["year"] < end_year and x["year"] > start_year, books))
+    books_in_range = list(filter(lambda x: int(x["year"]) < end_year and int(x["year"]) > start_year, books))
     # TODO: Implement book filtering by year
     return books_in_range
 
-
-
-
-
-
-
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def sort_books(books, sort_by, reverse=False):
     """
@@ -110,6 +76,8 @@ def sort_books(books, sort_by, reverse=False):
     """
     # TODO: Implement book sorting
     pass
+
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def find_most_prolific_author(books):
     """
@@ -168,8 +136,9 @@ def convert_currency(books, exchange_rate):
     pass
 
 
+
 def main():
-    input_file = "books.csv"
+    input_file = "Project1/books.csv"
     output_file = "book_analysis_report.txt"
     
     try:
@@ -179,9 +148,10 @@ def main():
         # Process data
         books = calculate_discount_price(books, 0.1)  # 10% discount
         unique_genres = find_unique_genres(books)
-        
+
         # Perform analysis
         recent_books = filter_books_by_year(books, 2000, 2023)
+        print(recent_books)
         sorted_books = sort_books(books, 'price', reverse=True)
         top_author = find_most_prolific_author(books)
         
