@@ -28,6 +28,8 @@ print(f'Here is a list of dictionaries containg books and their properties: "\n"
 
 
 
+
+
 def calculate_discount_price(books, discount_rate):
     """
     Calculate and add discounted price for each book.
@@ -37,17 +39,18 @@ def calculate_discount_price(books, discount_rate):
     Returns:
         list of dict: Updated list of book dictionaries with discounted price
     """
-    for book in books:
+    for book in range(len(books)):
         
         book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate/100))),'.2f')
 
         print(book)
     # TODO: Implement discounted price calculation
     return books
-    
     pass
 book_data_discount = calculate_discount_price(book_data, 10)
 print(f'Here is a list of dictionaries containg books and their properties with a discount applied: "\n" {book_data_discount} "\n"')
+
+
 
 
 
@@ -62,8 +65,21 @@ def find_unique_genres(books):
     Returns:
         set: Set of unique genres
     """
-    # TODO: Implement unique genres extraction
-    pass
+    unique_genres = set()
+    
+    for book in books:
+        # Get the genre, assuming it's stored under the key 'genre'
+        genre = book.get('genre')
+        if genre:
+            unique_genres.add(genre)
+    
+    return unique_genres
+
+print(find_unique_genres(book_data))
+
+
+
+
 
 def filter_books_by_year(books, start_year, end_year):
     """
@@ -75,6 +91,7 @@ def filter_books_by_year(books, start_year, end_year):
     Returns:
         list of dict: Filtered list of book dictionaries
     """
+    books_in_range = list(filter(lambda x: x["year"] < end_year and x["year"] > start_year, books))
     # TODO: Implement book filtering by year
     pass
 
