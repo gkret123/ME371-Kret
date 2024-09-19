@@ -33,6 +33,7 @@ def calculate_discount_price(books, discount_rate):
     """
     for book in books:
         book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate))),'.2f')
+    print("Discount price has been calculated successfully! \n")
     return books
 
     """--------------------------------------------------------------------------------------------------------------------"""
@@ -46,6 +47,7 @@ def find_unique_genres(books):
         set: Set of unique genres
     """
     unique_genres = {book['genre'] for book in books if 'genre' in book}
+    print("Unique genres found successfully! \n")
     return unique_genres 
 
 def filter_books_by_year(books, start_year, end_year):
@@ -59,7 +61,7 @@ def filter_books_by_year(books, start_year, end_year):
         list of dict: Filtered list of book dictionaries
     """
     books_in_range = list(filter(lambda x: int(x["year"]) < end_year and int(x["year"]) > start_year, books))
-    # TODO: Implement book filtering by year
+    print("Books have been filtered by year successfully! \n")
     return books_in_range
 
 """--------------------------------------------------------------------------------------------------------------------"""
@@ -74,8 +76,10 @@ def sort_books(books, sort_by, reverse=False):
     Returns:
         list of dict: Sorted list of book dictionaries
     """
-    # TODO: Implement book sorting
-    pass
+    sorted_books = sorted(books, key=lambda book: book[sort_by], reverse = reverse)
+    print(sorted_books)  
+    return sorted_books
+
 
 """--------------------------------------------------------------------------------------------------------------------"""
 
@@ -151,7 +155,6 @@ def main():
 
         # Perform analysis
         recent_books = filter_books_by_year(books, 2000, 2023)
-        print(recent_books)
         sorted_books = sort_books(books, 'price', reverse=True)
         top_author = find_most_prolific_author(books)
         
