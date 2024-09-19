@@ -1,0 +1,50 @@
+{'title': 'Book 1', 'author': 'Stephen King', 'year': '1917', 'genre': 'Romance', 'price': '16.59'}
+{'title': 'Book 2', 'author': 'Jane Austen', 'year': '1939', 'genre': 'Romance', 'price': '5.58'}
+{'title': 'Book 3', 'author': 'F. Scott Fitzgerald', 'year': '1939', 'genre': 'Non-Fiction', 'price': '21.33'}
+{'title': 'Book 4', 'author': 'Virginia Woolf', 'year': '1940', 'genre': 'Historical Fiction', 'price': '26.42'}
+{'title': 'Book 5', 'author': 'George Orwell', 'year': '1977', 'genre': 'Non-Fiction', 'price': '22.00'}
+{'title': 'Book 6', 'author': 'Charles Dickens', 'year': '1966', 'genre': 'Science Fiction', 'price': '16.42'}
+{'title': 'Book 7', 'author': 'Stephen King', 'year': '1949', 'genre': 'Fantasy', 'price': '24.39'}
+{'title': 'Book 8', 'author': 'Virginia Woolf', 'year': '1931', 'genre': 'Mystery', 'price': '20.41'}
+{'title': 'Book 9', 'author': 'Charles Dickens', 'year': '1908', 'genre': 'Historical Fiction', 'price': '9.23'}
+{'title': 'Book 10', 'author': 'George Orwell', 'year': '2005', 'genre': 'Romance', 'price': '5.66'}
+{'title': 'Book 11', 'author': 'J.K. Rowling', 'year': '2011', 'genre': 'Non-Fiction', 'price': '6.03'}
+{'title': 'Book 12', 'author': 'Stephen King', 'year': '2005', 'genre': 'Non-Fiction', 'price': '15.45'}
+{'title': 'Book 13', 'author': 'Jane Austen', 'year': '1966', 'genre': 'Science Fiction', 'price': '11.50'}
+{'title': 'Book 14', 'author': 'J.K. Rowling', 'year': '1913', 'genre': 'Fiction', 'price': '13.07'}
+{'title': 'Book 15', 'author': 'George Orwell', 'year': '1921', 'genre': 'Science Fiction', 'price': '7.92'}
+{'title': 'Book 16', 'author': 'Jane Austen', 'year': '1978', 'genre': 'Science Fiction', 'price': '24.55'}
+{'title': 'Book 17', 'author': 'Ernest Hemingway', 'year': '1957', 'genre': 'Romance', 'price': '14.08'}
+{'title': 'Book 18', 'author': 'Mark Twain', 'year': '2006', 'genre': 'Thriller', 'price': '18.42'}
+{'title': 'Book 19', 'author': 'Agatha Christie', 'year': '1978', 'genre': 'Thriller', 'price': '13.20'}
+{'title': 'Book 20', 'author': 'Charles Dickens', 'year': '1946', 'genre': 'Fiction', 'price': '22.11'}
+{'title': 'Book 21', 'author': 'Agatha Christie', 'year': '1998', 'genre': 'Fiction', 'price': '24.63'}
+{'title': 'Book 22', 'author': 'F. Scott Fitzgerald', 'year': '1924', 'genre': 'Non-Fiction', 'price': '8.49'}
+{'title': 'Book 23', 'author': 'Stephen King', 'year': '1995', 'genre': 'Non-Fiction', 'price': '13.37'}
+{'title': 'Book 24', 'author': 'Stephen King', 'year': '1965', 'genre': 'Fantasy', 'price': '13.72'}
+{'title': 'Book 25', 'author': 'Virginia Woolf', 'year': '1926', 'genre': 'Romance', 'price': '26.44'}
+{'title': 'Book 26', 'author': 'Mark Twain', 'year': '1910', 'genre': 'Fantasy', 'price': '13.38'}
+{'title': 'Book 27', 'author': 'Agatha Christie', 'year': '2004', 'genre': 'Mystery', 'price': '8.72'}
+{'title': 'Book 28', 'author': 'Mark Twain', 'year': '1916', 'genre': 'Science Fiction', 'price': '6.06'}
+{'title': 'Book 29', 'author': 'Ernest Hemingway', 'year': '2015', 'genre': 'Historical Fiction', 'price': '14.47'}
+{'title': 'Book 30', 'author': 'Ernest Hemingway', 'year': '1995', 'genre': 'Non-Fiction', 'price': '6.49'}
+{'title': 'Book 31', 'author': 'Mark Twain', 'year': '1919', 'genre': 'Science Fiction', 'price': '26.14'}
+{'title': 'Book 32', 'author': 'Agatha Christie', 'year': '2002', 'genre': 'Fantasy', 'price': '7.31'}
+{'title': 'Book 33', 'author': 'Virginia Woolf', 'year': '1907', 'genre': 'Mystery', 'price': '23.57'}
+{'title': 'Book 34', 'author': 'Ernest Hemingway', 'year': '1982', 'genre': 'Mystery', 'price': '9.07'}
+{'title': 'Book 35', 'author': 'Jane Austen', 'year': '1952', 'genre': 'Non-Fiction', 'price': '19.24'}
+{'title': 'Book 36', 'author': 'Virginia Woolf', 'year': '1973', 'genre': 'Romance', 'price': '12.91'}
+{'title': 'Book 37', 'author': 'Mark Twain', 'year': '2020', 'genre': 'Non-Fiction', 'price': '17.61'}
+{'title': 'Book 38', 'author': 'F. Scott Fitzgerald', 'year': '1940', 'genre': 'Mystery', 'price': '18.36'}
+{'title': 'Book 39', 'author': 'George Orwell', 'year': '1932', 'genre': 'Romance', 'price': '14.13'}
+{'title': 'Book 40', 'author': 'F. Scott Fitzgerald', 'year': '1947', 'genre': 'Mystery', 'price': '16.80'}
+{'title': 'Book 41', 'author': 'Jane Austen', 'year': '1902', 'genre': 'Science Fiction', 'price': '20.78'}
+{'title': 'Book 42', 'author': 'F. Scott Fitzgerald', 'year': '1933', 'genre': 'Fiction', 'price': '20.74'}
+{'title': 'Book 43', 'author': 'Jane Austen', 'year': '2011', 'genre': 'Romance', 'price': '18.64'}
+{'title': 'Book 44', 'author': 'J.K. Rowling', 'year': '1982', 'genre': 'Fantasy', 'price': '26.21'}
+{'title': 'Book 45', 'author': 'Ernest Hemingway', 'year': '1921', 'genre': 'Fantasy', 'price': '6.28'}
+{'title': 'Book 46', 'author': 'Mark Twain', 'year': '1966', 'genre': 'Thriller', 'price': '17.14'}
+{'title': 'Book 47', 'author': 'Jane Austen', 'year': '1934', 'genre': 'Thriller', 'price': '5.62'}
+{'title': 'Book 48', 'author': 'Stephen King', 'year': '1940', 'genre': 'Thriller', 'price': '17.87'}
+{'title': 'Book 49', 'author': 'Jane Austen', 'year': '1913', 'genre': 'Fantasy', 'price': '19.73'}
+{'title': 'Book 50', 'author': 'George Orwell', 'year': '1944', 'genre': 'Historical Fiction', 'price': '25.25'}

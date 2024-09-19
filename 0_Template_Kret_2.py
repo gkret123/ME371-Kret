@@ -18,7 +18,11 @@ def load_book_data(filename):
             return book_data
                     
     except FileNotFoundError:
-        print(f"'\n' The file {filename} could not be found. Please check the file input and try again.") 
+        print(f"\nThe file {filename} could not be found. Please check the file input and try again.")
+        return []
+    except Exception as e:
+        print(f"Error reading the file {filename}: {e}")
+        return [] 
 
 '''--------------------------------------------------------------------------------------------------------------------'''
 
@@ -31,10 +35,16 @@ def calculate_discount_price(books, discount_rate):
     Returns:
         list of dict: Updated list of book dictionaries with discounted price
     """
-    for book in books:
-        book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate))),'.2f')
+    try:
+        for book in books:
+            book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate))),'.2f')
+
+    except (KeyError, ValueError):
+        print(f"Skipping book {book.get('title', 'Unknown')} due to invalid or missing price.")
+
     print("Discount price has been calculated successfully! \n")
     return books
+
 
     """--------------------------------------------------------------------------------------------------------------------"""
 
@@ -60,7 +70,7 @@ def filter_books_by_year(books, start_year, end_year):
     Returns:
         list of dict: Filtered list of book dictionaries
     """
-    books_in_range = list(filter(lambda x: int(x["year"]) < end_year and int(x["year"]) > start_year, books))
+    books_in_range = list(filter(lambda x: int(x["year"]) <= end_year and int(x["year"]) >= start_year, books))
     print("Books have been filtered by year successfully! \n")
     return books_in_range
 
@@ -76,8 +86,15 @@ def sort_books(books, sort_by, reverse=False):
     Returns:
         list of dict: Sorted list of book dictionaries
     """
-    sorted_books = sorted(books, key=lambda book: float(book[sort_by]), reverse=reverse) 
-    print("Books have been sorted successfully! \n")
+    try:
+        sorted_books = sorted(books, key=lambda book: float(book[sort_by]), reverse=reverse) 
+        print("Books have been sorted successfully! \n")
+    except KeyError:
+        print(f"Cannot sort by {sort_by}. Invalid key.")
+        return []
+    except ValueError:
+        print(f"Cannot convert field {sort_by} to numeric value for sorting.")
+        return []
     return sorted_books
 
 
@@ -93,6 +110,10 @@ def find_most_prolific_author(books):
     """
     author_count = {}
 
+    if not books:
+        print("The book list is empty. No prolific author found.")
+        return None
+    
     for book in books:
         author = book['author']
         
@@ -101,6 +122,10 @@ def find_most_prolific_author(books):
         
         else:
             author_count[author] = 1
+
+    if not author_count:
+        print("No valid authors found in the dataset.")
+        return None
     
     most_prolific_author = max(author_count, key=author_count.get)
     print("Most prolific author has been found successfully! \n")
@@ -170,7 +195,7 @@ def update_book_properties(books, updates):
             raise ValueError(f"Each item in 'books' must be a dictionary. Found: {type(book)}")
         
         if 'title' not in book:
-            raise ValueError(f"Book {book} does not contain ana'title' key.")
+            raise ValueError(f"Book {book} does not contain ana 'title' key.")
         
         book_title = book.get('title')
         
@@ -195,11 +220,15 @@ def convert_currency(books, exchange_rate):
     Returns:
         list of dict: Updated list of book dictionaries with converted prices
     """
-    for book in books:
-        book['price'] = format(float(book['price']) * exchange_rate, '.2f')
-    print("Currency conversion has been completed successfully! \n")
+    try:
+        for book in books:
+            book['price'] = format(float(book['price']) * exchange_rate, '.2f')
+        print("Currency conversion has been completed successfully! \n")
+    except TypeError:
+        print("The exchange rate must be a float value.")
+    except Exception as e:
+        print(f"Error during currency conversion: {e}")
     return books
-
 """--------------------------------------------------------------------------------------------------------------------"""
 
 
