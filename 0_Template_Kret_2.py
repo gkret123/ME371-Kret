@@ -76,8 +76,8 @@ def sort_books(books, sort_by, reverse=False):
     Returns:
         list of dict: Sorted list of book dictionaries
     """
-    sorted_books = sorted(books, key=lambda book: book[sort_by], reverse = reverse)
-    print(sorted_books)  
+    sorted_books = sorted(books, key=lambda book: float(book[sort_by]), reverse=reverse) 
+    print("Books have been sorted successfully! \n")
     return sorted_books
 
 
@@ -91,8 +91,22 @@ def find_most_prolific_author(books):
     Returns:
         str: Name of the most prolific author
     """
-    # TODO: Implement finding the most prolific author
-    pass
+    author_count = {}
+
+    for book in books:
+        author = book['author']
+        
+        if author in author_count:
+            author_count[author] += 1
+        
+        else:
+            author_count[author] = 1
+    
+    most_prolific_author = max(author_count, key=author_count.get)
+    print("Most prolific author has been found successfully! \n")
+    return most_prolific_author
+
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def calculate_average_price_by_genre(books):
     """
@@ -102,6 +116,28 @@ def calculate_average_price_by_genre(books):
     Returns:
         dict: Dictionary of average prices by genre
     """
+    genre_prices = {}
+    genre_counts = {} 
+
+    for book in books:
+        genre = book['genre']
+        price = float(book['price'])
+
+        if genre in genre_counts:
+            genre_counts[genre] += 1
+            genre_prices[genre] += price
+        else: 
+            genre_counts[genre] = 1
+            genre_prices[genre] = price
+
+    average_prices = {genre: format(float(genre_prices[genre] / genre_counts[genre]), '.2f') for genre in genre_prices}
+    print("Average prices by genre have been calculated successfully! \n")
+    return average_prices
+    
+        
+
+
+
     # TODO: Implement average price calculation by genre
     pass
 
@@ -157,10 +193,10 @@ def main():
         recent_books = filter_books_by_year(books, 2000, 2023)
         sorted_books = sort_books(books, 'price', reverse=True)
         top_author = find_most_prolific_author(books)
-        
+
         # Generate statistics
         avg_prices = calculate_average_price_by_genre(books)
-        
+        print(f"Average prices by genre: {avg_prices}")
         # Generate report
         generate_book_report(books, output_file)
         
