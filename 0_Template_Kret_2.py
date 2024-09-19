@@ -133,13 +133,8 @@ def calculate_average_price_by_genre(books):
     average_prices = {genre: format(float(genre_prices[genre] / genre_counts[genre]), '.2f') for genre in genre_prices}
     print("Average prices by genre have been calculated successfully! \n")
     return average_prices
-    
-        
 
-
-
-    # TODO: Implement average price calculation by genre
-    pass
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def generate_book_report(books, output_filename):
     """
@@ -148,8 +143,12 @@ def generate_book_report(books, output_filename):
         books (list of dict): List of book dictionaries
         output_filename (str): Name of the output text file
     """
-    # TODO: Implement report generation
-    pass
+    with open(output_filename, 'w') as file:
+        for book in books:
+            file.write(str(book) + '\n')
+    print("Book report has been generated successfully! \n")
+
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def update_book_properties(books, updates):
     """
@@ -160,8 +159,32 @@ def update_book_properties(books, updates):
     Returns:
         list of dict: Updated list of book dictionaries
     """
-    # TODO: Implement book property updates with error handling
-    pass
+    if not isinstance(books, list):
+        raise ValueError("The 'books' argument must be a list of dictionaries.")
+    
+    if not isinstance(updates, dict):
+        raise ValueError("The 'updates' argument must be a dictionary.")
+    
+    for book in books:
+        if not isinstance(book, dict):
+            raise ValueError(f"Each item in 'books' must be a dictionary. Found: {type(book)}")
+        
+        if 'title' not in book:
+            raise ValueError(f"Book {book} does not contain ana'title' key.")
+        
+        book_title = book.get('title')
+        
+        if book_title in updates:
+            update_info = updates[book_title]
+            if not isinstance(update_info, dict):
+                raise ValueError(f"Updates for book with ID {book_title} must be a dictionary. Found: {type(update_info)}")
+            
+            for key, value in update_info.items():
+                book[key] = value
+    
+    return books
+    
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 def convert_currency(books, exchange_rate):
     """
@@ -172,9 +195,12 @@ def convert_currency(books, exchange_rate):
     Returns:
         list of dict: Updated list of book dictionaries with converted prices
     """
-    # TODO: Implement currency conversion with error handling
-    pass
+    for book in books:
+        book['price'] = format(float(book['price']) * exchange_rate, '.2f')
+    print("Currency conversion has been completed successfully! \n")
+    return books
 
+"""--------------------------------------------------------------------------------------------------------------------"""
 
 
 def main():
@@ -196,7 +222,7 @@ def main():
 
         # Generate statistics
         avg_prices = calculate_average_price_by_genre(books)
-        print(f"Average prices by genre: {avg_prices}")
+        
         # Generate report
         generate_book_report(books, output_file)
         
