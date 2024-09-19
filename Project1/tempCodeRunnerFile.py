@@ -1,1 +1,3 @@
-book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate/100))),'.2f')
+        # Write results to file
+        write_results(output_file, results)
+        print(f"Results written to {output_file}")

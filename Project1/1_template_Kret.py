@@ -10,8 +10,18 @@ def read_mechanical_data(filename):
     Returns:
     list of tuples: List of (time, position, force) tuples
     """
-    # TODO: Implement reading from CSV file
-    pass
+    open_file = open(filename, 'r')
+    csv_reader = csv.reader(open_file)
+    data = []
+    next(csv_reader)
+    for row in csv_reader:
+        time = (float(row[0]))
+        position = (float(row[1]))
+        force = (float(row[2]))
+        data.append((time, position, force))
+    open_file.close()
+    return data
+
 
 def calculate_velocity(position_data, time_step):
     """
@@ -80,7 +90,7 @@ def write_results(filename, results_data):
     pass
 
 def main():
-    input_file = "mechanical_data.csv"
+    input_file = "Project1/mechanical_data.csv"
     output_file = "analysis_results.csv"
     time_step = 0.1  # s
 
