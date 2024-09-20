@@ -22,6 +22,7 @@ def read_mechanical_data(filename):
     open_file.close()
     return data
 
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def calculate_velocity(position_data, time_step):
     """
@@ -34,8 +35,17 @@ def calculate_velocity(position_data, time_step):
     Returns:
     list of tuples: List of (time, velocity) tuples
     """
-    # TODO: Implement velocity calculation
-    pass
+    velocity_data = []
+    for i in range(1, len(position_data)):
+        time = position_data[i][0]
+        position = position_data[i][1]
+        prev_time = position_data[i - 1][0]
+        prev_position = position_data[i - 1][1]
+        velocity = (position - prev_position) / (time - prev_time)
+        velocity_data.append((time, velocity))
+    return velocity_data
+
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def calculate_acceleration(velocity_data, time_step):
     """
@@ -48,8 +58,17 @@ def calculate_acceleration(velocity_data, time_step):
     Returns:
     list of tuples: List of (time, acceleration) tuples
     """
-    # TODO: Implement acceleration calculation
-    pass
+    acceleration_data = []
+    for i in range(1, len(velocity_data)):
+        time = velocity_data[i][0]
+        velocity = velocity_data[i][1]
+        prev_time = velocity_data[i - 1][0]
+        prev_velocity = velocity_data[i - 1][1]
+        acceleration = (velocity - prev_velocity) / (time - prev_time)
+        acceleration_data.append((time, acceleration))
+    return acceleration_data
+
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def find_max_force(force_data):
     """
@@ -61,8 +80,17 @@ def find_max_force(force_data):
     Returns:
     tuple: (time, max_force)
     """
-    # TODO: Implement maximum force calculation
-    pass
+    max_force = 0.0
+    max_force_time = 0.0
+    for i in range(1, len(force_data)):
+        time = force_data[i][0]
+        force = force_data[i][1]
+        if force > max_force:
+            max_force = force
+            max_force_time = time
+    return (max_force_time, max_force)
+
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def calculate_work_done(force_data, position_data):
     """
@@ -75,8 +103,16 @@ def calculate_work_done(force_data, position_data):
     Returns:
     float: Total work done
     """
-    # TODO: Implement work done calculation
-    pass
+    work = 0.0
+    for i in range(1, len(force_data)):
+        position = position_data[i][1]
+        force = force_data[i][1]
+        prev_position = position_data[i-1][1]
+        distance = position - prev_position
+        work += force * distance
+    return work
+    
+
 
 def write_results(filename, results_data):
     """
@@ -102,17 +138,17 @@ def main():
         time_data = [item[0] for item in data]
         position_data = [(item[0], item[1]) for item in data]
         force_data = [(item[0], item[2]) for item in data]
-
+      
         # Calculate velocity and acceleration
         velocity_data = calculate_velocity(position_data, time_step)
         acceleration_data = calculate_acceleration(velocity_data, time_step)
 
         # Find maximum force
         max_force_time, max_force = find_max_force(force_data)
-
+        
         # Calculate work done
         work_done = calculate_work_done(force_data, position_data)
-
+        print(work_done)
         # Prepare results
         results = {
             "velocity": velocity_data,

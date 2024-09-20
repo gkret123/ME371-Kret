@@ -1,40 +1,9 @@
-# -- coding: utf-8 --
-"""
-Created on Mon Sep  9 17:38:26 2024
-
-@author: Adin Sacho-Tanzer and Gabriel Kret
-"""
 import numpy as np
-import matplotlib.pyplot as plt
 
-L_y = 1.5  # m, Wing beam lengths
-D_1 = 19.0e-3  #  m, Major wing beam outer diameter
-D_2 = 12.8e-3  #  m, Minor wing beam outer diameter
-d_1 = 15.8e-3  #  m, Major wing beam inner diameter
-d_2 = 9.6e-3  # m, Minor wing beam inner diameter
-L_x = 0.91  # m, Motor boom length
-D_B = 19.0e-3  # m, Motor boom outer diameter
-d_B = 15.8e-3  # m, Motor boom inner diameter
-E_A = 90e9  # Pa, CFC axial modulus
-G = 4.6e9  # Pa, CFC shear modulus
+a = np.random.randint(1,11, size = (3,3))
 
-J_1 = 0.5*np.pi*(D_1*4-d_1*4)  # m^4, polar moment of inertia of major wing beam
-J_2 = 0.5*np.pi*(D_2*4-d_2*4)  # m^4, polar moment of inertia of minor wing beam
-I_2 = 0.25*np.pi*(D_2*4-d_2*4)  # m^4, moment of inertia of wing boom
+print(a)
 
-# part a
-stiffness_1 =  G*J_1/(L_y/2)
-# part b
-stiffness_2 =  G*J_2/(L_y/2)
-# part c
-stiffness_wing = stiffness_1 + stiffness_2
-# part d
-stiffness_motor = 1/(-(L_x/2)**3/(3*E_A*I_2))
-# part e
-
-print(f"Polar moment of inertia of major wing beam: {J_1}")
-print(f"Polar moment of inertia of minor wing beam: {J_2}")
-print(f"Torsional stiffness of major wing beam: {stiffness_1} N*m")
-print(f"Torsional stiffness of minor wing beam: {stiffness_2} N*m")
-print(f"Total wing stiffness: {stiffness_wing} N*m")
-print(f"Motor boom stiffness: {stiffness_motor} N/m")
+mean_row_1 = np.mean(a, axis = 0)
+mean_row_2 = np.mean(a, axis = 1)
+mean_row_3 = np.mean(a, axis = 2)

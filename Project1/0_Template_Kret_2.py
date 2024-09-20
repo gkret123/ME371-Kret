@@ -1,3 +1,8 @@
+# Gabriel Kret
+# 09/19/2024
+#ME-371
+#Project 1
+
 import csv
 import json
 
@@ -18,7 +23,7 @@ def load_book_data(filename):
             return book_data
                     
     except FileNotFoundError:
-        print(f"\nThe file {filename} could not be found. Please check the file input and try again.")
+        print(f"\n The file {filename} could not be found. Please check the file input and try again.")
         return []
     except Exception as e:
         print(f"Error reading the file {filename}: {e}")
@@ -198,15 +203,20 @@ def update_book_properties(books, updates):
             raise ValueError(f"Book {book} does not contain ana 'title' key.")
         
         book_title = book.get('title')
+
+        for title in updates:
+            if title not in [book['title'] for book in books]:
+                raise ValueError(f"Title '{title}' not found in the books database.")
         
         if book_title in updates:
             update_info = updates[book_title]
             if not isinstance(update_info, dict):
-                raise ValueError(f"Updates for book with ID {book_title} must be a dictionary. Found: {type(update_info)}")
+                raise ValueError(f"Updates for book with Title {book_title} must be a dictionary. Found: {type(update_info)}")
             
             for key, value in update_info.items():
                 book[key] = value
-    
+            print(f"Book: {book_title} has been updated successfully! \n")
+
     return books
     
 """--------------------------------------------------------------------------------------------------------------------"""
@@ -224,6 +234,7 @@ def convert_currency(books, exchange_rate):
         for book in books:
             book['price'] = format(float(book['price']) * exchange_rate, '.2f')
         print("Currency conversion has been completed successfully! \n")
+
     except TypeError:
         print("The exchange rate must be a float value.")
     except Exception as e:
@@ -256,10 +267,14 @@ def main():
         generate_book_report(books, output_file)
         
         # Perform updates and conversions
-        updates = {'To Kill a Mockingbird': {'year': 1960}, 'Pride and Prejudice': {'price': 12.99}}
+        updates = {'Book 1': {'year': 1960}, 'Book 2': {'price': 12.99}} 
+        # GK: I modified the above line to say book 1 and book 2 to match the names in the dataset
+        # GK: It origionally said: updates = {'To Kill a Mockingbird': {'year': 1960}, 'Pride and Prejudice': {'price': 12.99}}
+        # GK: Which would have raised a ValueError since To Kill a Mockingbird' and 'Pride and Prejudice' are not valid titles in the dataset
+
         books = update_book_properties(books, updates)
         books = convert_currency(books, 0.85)  # Convert to GBP
-        
+
         print(f"Analysis complete. Report generated: {output_file}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
