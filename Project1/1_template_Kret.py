@@ -10,17 +10,24 @@ def read_mechanical_data(filename):
     Returns:
     list of tuples: List of (time, position, force) tuples
     """
-    open_file = open(filename, 'r')
-    csv_reader = csv.reader(open_file)
-    data = []
-    next(csv_reader)
-    for row in csv_reader:
-        time = (float(row[0]))
-        position = (float(row[1]))
-        force = (float(row[2]))
-        data.append((time, position, force))
-    open_file.close()
-    return data
+    try:
+        open_file = open(filename, 'r')
+        csv_reader = csv.reader(open_file)
+        data = []
+        next(csv_reader)
+        for row in csv_reader:
+            time = float(row[0])
+            position = float(row[1])
+            force = float(row[2])
+            data.append((time, position, force))
+        open_file.close()
+        return data
+    except FileNotFoundError:
+        print(f"Error: The file {filename} was not found.")
+        return []
+    except Exception as e:
+        print(f"An unexpected error occurred: {str(e)}")
+        return []
 
 """-------------------------------------------------------------------------------------------------------------------------"""
 
@@ -67,6 +74,7 @@ def calculate_acceleration(velocity_data, time_step):
         acceleration = (velocity - prev_velocity) / (time - prev_time)
         acceleration_data.append((time, acceleration))
     return acceleration_data
+    
 
 """-------------------------------------------------------------------------------------------------------------------------"""
 
@@ -112,7 +120,7 @@ def calculate_work_done(force_data, position_data):
         work += force * distance
     return work
     
-
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def write_results(filename, results_data):
     """
@@ -122,8 +130,30 @@ def write_results(filename, results_data):
     filename (str): Name of the output CSV file
     results_data (dict): Dictionary containing results to be written
     """
-    # TODO: Implement writing results to CSV file
-    pass
+
+    
+    velocity_data = results_data.get('velocity', [])
+    acceleration_data = results_data.get('acceleration', [])
+
+    velocity_dict = dict(velocity_data)
+    acceleration_dict = dict(acceleration_data)
+
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        headers = ['time', 'velocity', 'acceleration']
+        writer.writerow(headers)
+
+        for time in sorted(set(velocity_dict.keys())):
+            velocity = velocity_dict.get(time, '')
+            acceleration = acceleration_dict.get(time, '')
+            writer.writerow([time, velocity, acceleration])
+        writer.writerow([])
+        writer.writerow(['Results:'])
+        for key, value in results_data.items():
+            if key in ['max_force_time', 'max_force', 'work_done']:
+                writer.writerow([key.replace("_", " ").capitalize(), value])
+
+"""-------------------------------------------------------------------------------------------------------------------------"""
 
 def main():
     input_file = "Project1/mechanical_data.csv"
@@ -153,7 +183,8 @@ def main():
         results = {
             "velocity": velocity_data,
             "acceleration": acceleration_data,
-            "max_force": (max_force_time, max_force),
+            "max_force_time": max_force_time,
+            "max_force": max_force,
             "work_done": work_done
         }
 
