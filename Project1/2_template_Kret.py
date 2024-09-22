@@ -29,11 +29,12 @@ def calculate_bending_moment(length, loads):
     # TODO: Implement bending moment calculation
     pass
 
-def calculate_shear_force(loads):
+def calculate_shear_force(length, loads):
     """
     Calculate the maximum shear force in the beam.
     
     Args:
+    length (float): Length of the beam
     loads (list): List of (position, magnitude) tuples for each load
     
     Returns:
@@ -115,7 +116,7 @@ def main():
 
         # Perform calculations
         max_moment = calculate_bending_moment(length, loads)
-        max_shear = calculate_shear_force(loads)
+        max_shear = calculate_shear_force(length, loads)
         max_bending_stress = calculate_max_bending_stress(max_moment, moment_of_inertia, y_max)
         max_shear_stress = calculate_max_shear_stress(max_shear, first_moment, moment_of_inertia, width)
         max_deflection = calculate_max_deflection(length, loads, elastic_modulus, moment_of_inertia)

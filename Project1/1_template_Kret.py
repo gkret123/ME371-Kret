@@ -130,8 +130,6 @@ def write_results(filename, results_data):
     filename (str): Name of the output CSV file
     results_data (dict): Dictionary containing results to be written
     """
-
-    
     velocity_data = results_data.get('velocity', [])
     acceleration_data = results_data.get('acceleration', [])
 

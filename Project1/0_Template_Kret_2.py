@@ -1,7 +1,7 @@
 # Gabriel Kret
 # 09/19/2024
 #ME-371
-#Project 1
+#Project 1 -- Book Analysis -- Template 0
 
 import csv
 import json
@@ -189,15 +189,7 @@ def update_book_properties(books, updates):
     Returns:
         list of dict: Updated list of book dictionaries
     """
-    if not isinstance(books, list):
-        raise ValueError("The 'books' argument must be a list of dictionaries.")
-    
-    if not isinstance(updates, dict):
-        raise ValueError("The 'updates' argument must be a dictionary.")
-    
     for book in books:
-        if not isinstance(book, dict):
-            raise ValueError(f"Each item in 'books' must be a dictionary. Found: {type(book)}")
         
         if 'title' not in book:
             raise ValueError(f"Book {book} does not contain ana 'title' key.")
@@ -244,7 +236,7 @@ def convert_currency(books, exchange_rate):
 
 
 def main():
-    input_file = "Project1/books.csv" #can I update this????
+    input_file = "Project1/books.csv"
     output_file = "book_analysis_report.txt"
     
     try:
@@ -254,12 +246,12 @@ def main():
         # Process data
         books = calculate_discount_price(books, 0.1)  # 10% discount
         unique_genres = find_unique_genres(books)
-
+        
         # Perform analysis
         recent_books = filter_books_by_year(books, 2000, 2023)
         sorted_books = sort_books(books, 'price', reverse=True)
         top_author = find_most_prolific_author(books)
-
+        
         # Generate statistics
         avg_prices = calculate_average_price_by_genre(books)
         
@@ -267,15 +259,12 @@ def main():
         generate_book_report(books, output_file)
         
         # Perform updates and conversions
-        updates = {'Book 1': {'year': 1960}, 'Book 2': {'price': 12.99}} 
-        # GK: I modified the above line to say book 1 and book 2 to match the names in the dataset
-        # GK: It origionally said: updates = {'To Kill a Mockingbird': {'year': 1960}, 'Pride and Prejudice': {'price': 12.99}}
-        # GK: Which would have raised a ValueError since To Kill a Mockingbird' and 'Pride and Prejudice' are not valid titles in the dataset
-
+        updates = {'Book 1': {'year': 1960}, 'Book 2': {'price': 12.99}}
         books = update_book_properties(books, updates)
         books = convert_currency(books, 0.85)  # Convert to GBP
-
+        
         print(f"Analysis complete. Report generated: {output_file}")
+
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
