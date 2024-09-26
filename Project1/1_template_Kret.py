@@ -22,6 +22,7 @@ def read_mechanical_data(filename):
             data.append((time, position, force))
         open_file.close()
         return data
+    
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found.")
         return []
@@ -77,6 +78,10 @@ def calculate_acceleration(velocity_data, time_step):
     
 
 """-------------------------------------------------------------------------------------------------------------------------"""
+#This assignment can be interpreted in two ways. The first way is to calculate the maximum force as the maximum positive force.
+#The second is the find the largest force which could be positive or negative. I chose to implement the first interpretation.
+#If you want to implement the second interpretation, you can change the if statement in the find_max_force function to:
+# if abs(force) > abs(max_force):
 
 def find_max_force(force_data):
     """
@@ -93,7 +98,7 @@ def find_max_force(force_data):
     for i in range(1, len(force_data)):
         time = force_data[i][0]
         force = force_data[i][1]
-        if force > max_force:
+        if force > max_force: # or write --> if abs(force) > abs(max_force): --> to find the force of the largest mangnitude.
             max_force = force
             max_force_time = time
     return (max_force_time, max_force)
@@ -135,21 +140,27 @@ def write_results(filename, results_data):
 
     velocity_dict = dict(velocity_data)
     acceleration_dict = dict(acceleration_data)
+    try:
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            headers = ['time', 'velocity', 'acceleration']
+            writer.writerow(headers)
 
-    with open(filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        headers = ['time', 'velocity', 'acceleration']
-        writer.writerow(headers)
+            for time in sorted(set(velocity_dict.keys())):
+                velocity = velocity_dict.get(time, '')
+                acceleration = acceleration_dict.get(time, '')
+                writer.writerow([time, velocity, acceleration])
+            writer.writerow([])
+            writer.writerow(['Results:'])
+            for key, value in results_data.items():
+                if key in ['max_force_time', 'max_force', 'work_done']:
+                    writer.writerow([key.replace("_", " ").capitalize(), value])
+    except FileNotFoundError:
+        print(f"Error: The file {filename} was not found.")
 
-        for time in sorted(set(velocity_dict.keys())):
-            velocity = velocity_dict.get(time, '')
-            acceleration = acceleration_dict.get(time, '')
-            writer.writerow([time, velocity, acceleration])
-        writer.writerow([])
-        writer.writerow(['Results:'])
-        for key, value in results_data.items():
-            if key in ['max_force_time', 'max_force', 'work_done']:
-                writer.writerow([key.replace("_", " ").capitalize(), value])
+    except Exception as e:
+        print(f"An error occurred while writing the results: {str(e)}")
+    
 
 """-------------------------------------------------------------------------------------------------------------------------"""
 

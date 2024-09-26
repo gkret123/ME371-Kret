@@ -1,1 +1,1 @@
-'time', list(results_data.keys())[:2]
+if l[0] < x

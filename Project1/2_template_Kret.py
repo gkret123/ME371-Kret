@@ -12,8 +12,32 @@ def read_beam_data(filename):
     tuple: (length, width, height, elastic_modulus, loads)
     where loads is a list of tuples (position, magnitude)
     """
-    # TODO: Implement reading from CSV file
-    pass
+    
+    try:
+        with open(filename, 'r') as file:
+            properties_reader = csv.DictReader(file)
+            data = [row for row in properties_reader]
+            length = float(data[0]["length"])
+            width = float(data[0]["width"])
+            height = float(data[0]["height"])
+            elastic_modulus = float(data[0]["elastic_modulus"])
+
+            file.seek(0) #found on stack overflow
+
+            load_reader = csv.reader(file)
+            rows = [row for row in load_reader if row] 
+            last_4_lines = rows[-4:]
+            loads = [tuple(row) for row in last_4_lines]
+            return (length, width, height, elastic_modulus, loads)
+            
+    except FileNotFoundError:
+        print(f"Error: The file {filename} was not found.")
+        return []
+    except Exception as e:
+        print(f"An unexpected error occurred: {str(e)}")
+        return []
+
+"""-----------------------------------------------------------------------------------------------------------------"""
 
 def calculate_bending_moment(length, loads):
     """
@@ -26,8 +50,29 @@ def calculate_bending_moment(length, loads):
     Returns:
     float: Maximum bending moment
     """
-    # TODO: Implement bending moment calculation
-    pass
+
+    print("Converting load positions and magnitudes to float.")
+    for i in range(len(loads)):
+        loads[i] = (float(loads[i][0]), float(loads[i][1]))
+    print(f"Converted loads: {loads}")
+
+    print("Calculating reaction forces at supports (assuming simply supported beam).")
+    R1 = sum(load[1] * (length - load[0]) / length for load in loads)
+    R2 = sum(load[1] * load[0] / length for load in loads)
+    print(f"Calculated reaction forces: R1 = {R1}, R2 = {R2}")
+
+    print("Calculating bending moment at each load position.")
+    bending_moments = []
+    for load in loads:
+        x = load[0]
+        M = R1 * x - sum(load_dist[1] * (x - load_dist[0]) for load_dist in loads if load_dist[0] < x)
+        bending_moments.append(M)
+        print(f"Bending moment at position {x}: {M}")
+
+    max_moment = max(bending_moments)
+    print(f"Maximum bending moment: {max_moment}")
+    return max_moment
+
 
 def calculate_shear_force(length, loads):
     """
@@ -40,8 +85,27 @@ def calculate_shear_force(length, loads):
     Returns:
     float: Maximum shear force
     """
-    # TODO: Implement shear force calculation
-    pass
+    print("Converting load positions and magnitudes to float.")
+    for i in range(len(loads)):
+        loads[i] = (float(loads[i][0]), float(loads[i][1]))
+    print(f"Converted loads: {loads}")
+
+    print("Calculating reaction forces at supports (assuming simply supported beam).")
+    R1 = sum(load[1] * (length - load[0]) / length for load in loads)
+    R2 = sum(load[1] * load[0] / length for load in loads)
+    print(f"Calculated reaction forces: R1 = {R1}, R2 = {R2}")
+
+    print("Calculating shear force at each load position.")
+    shear_forces = []
+    for load in loads:
+        x = load[0]
+        V = R1 - sum(load_dist[1] for load_dist in loads if load_dist[0] < x)
+        shear_forces.append(V)
+        print(f"Shear force at position {x}: {V}")
+
+    max_shear = max(shear_forces)
+    print(f"Maximum shear force: {max_shear}")
+    return max_shear
 
 def calculate_max_bending_stress(max_moment, moment_of_inertia, y_max):
     """
@@ -55,8 +119,10 @@ def calculate_max_bending_stress(max_moment, moment_of_inertia, y_max):
     Returns:
     float: Maximum bending stress
     """
-    # TODO: Implement max bending stress calculation
-    pass
+    f = max_moment * y_max / moment_of_inertia
+    return f
+
+
 
 def calculate_max_shear_stress(max_shear, first_moment, moment_of_inertia, width):
     """
@@ -71,8 +137,8 @@ def calculate_max_shear_stress(max_shear, first_moment, moment_of_inertia, width
     Returns:
     float: Maximum shear stress
     """
-    # TODO: Implement max shear stress calculation
-    pass
+    tau = max_shear * first_moment / (moment_of_inertia * width)
+    return tau
 
 def calculate_max_deflection(length, loads, elastic_modulus, moment_of_inertia):
     """
@@ -87,8 +153,12 @@ def calculate_max_deflection(length, loads, elastic_modulus, moment_of_inertia):
     Returns:
     float: Maximum deflection
     """
-    # TODO: Implement max deflection calculation
-    pass
+    E = elastic_modulus
+    I = moment_of_inertia
+    W = sum(load[1] for load in loads)
+    x = length
+    max_deflection = W * x**3 / (48 * E * I)
+    return max_deflection
 
 def write_results(filename, results_data):
     """
@@ -98,11 +168,21 @@ def write_results(filename, results_data):
     filename (str): Name of the output CSV file
     results_data (dict): Dictionary containing results to be written
     """
-    # TODO: Implement writing results to CSV file
-    pass
+    try:
+        with open(filename, 'w', newline='') as csvfile:
+            fieldnames = ['Parameter', 'Value']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for key, value in results_data.items():
+                writer.writerow({'Parameter': key, 'Value': value})
+        print(f"Results successfully written to {filename}")
+   
+    except Exception as e:
+        print(f"An error occurred while writing to {filename}: {str(e)}")
+
 
 def main():
-    input_file = "beam_data.csv"
+    input_file = "Project1/beam_data.csv"
     output_file = "beam_analysis_results.csv"
 
     try:
