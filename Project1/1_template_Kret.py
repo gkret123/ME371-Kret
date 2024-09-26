@@ -68,6 +68,7 @@ def calculate_acceleration(velocity_data, time_step):
     """
     acceleration_data = []
     for i in range(1, len(velocity_data)):
+        
         time = velocity_data[i][0]
         velocity = velocity_data[i][1]
         prev_time = velocity_data[i - 1][0]
@@ -78,11 +79,6 @@ def calculate_acceleration(velocity_data, time_step):
     
 
 """-------------------------------------------------------------------------------------------------------------------------"""
-#This assignment can be interpreted in two ways. The first way is to calculate the maximum force as the maximum positive force.
-#The second is the find the largest force which could be positive or negative. I chose to implement the first interpretation.
-#If you want to implement the second interpretation, you can change the if statement in the find_max_force function to:
-# if abs(force) > abs(max_force):
-
 def find_max_force(force_data):
     """
     Find the maximum force applied to the system.
@@ -96,9 +92,10 @@ def find_max_force(force_data):
     max_force = 0.0
     max_force_time = 0.0
     for i in range(1, len(force_data)):
+        
         time = force_data[i][0]
         force = force_data[i][1]
-        if force > max_force: # or write --> if abs(force) > abs(max_force): --> to find the force of the largest mangnitude.
+        if abs(force) > abs(max_force): 
             max_force = force
             max_force_time = time
     return (max_force_time, max_force)
