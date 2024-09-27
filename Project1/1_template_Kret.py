@@ -152,6 +152,7 @@ def write_results(filename, results_data):
             for key, value in results_data.items():
                 if key in ['max_force_time', 'max_force', 'work_done']:
                     writer.writerow([key.replace("_", " ").capitalize(), value])
+                    
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found.")
 

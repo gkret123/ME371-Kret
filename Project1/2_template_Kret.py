@@ -46,17 +46,14 @@ def calculate_bending_moment(length, loads):
     float: Maximum bending moment
     """
     try:
-        print("Converting load positions and magnitudes to float.")
+
         for i in range(len(loads)):
             loads[i] = (float(loads[i][0]), float(loads[i][1]))
-        print(f"Converted loads: {loads}")
-
-        print("Calculating reaction forces at supports (assuming simply supported beam).")
+    
         R1 = sum(load[1] * (length - load[0]) / length for load in loads)
         R2 = sum(load[1] * load[0] / length for load in loads)
         print(f"Calculated reaction forces: R1 = {R1}, R2 = {R2}")
 
-        print("Calculating bending moment at each load position.")
         bending_moments = []
         for load in loads:
             x = load[0]
@@ -85,17 +82,12 @@ def calculate_shear_force(length, loads):
     float: Maximum shear force
     """
     try:
-        print("Converting load positions and magnitudes to float.")
         for i in range(len(loads)):
             loads[i] = (float(loads[i][0]), float(loads[i][1]))
-        print(f"Converted loads: {loads}")
 
-        print("Calculating reaction forces at supports (assuming simply supported beam).")
         R1 = sum(load[1] * (length - load[0]) / length for load in loads)
         R2 = sum(load[1] * load[0] / length for load in loads)
-        print(f"Calculated reaction forces: R1 = {R1}, R2 = {R2}")
 
-        print("Calculating shear force at each load position.")
         shear_forces = []
         for load in loads:
             x = load[0]
@@ -106,6 +98,7 @@ def calculate_shear_force(length, loads):
         max_shear = max(shear_forces)
         print(f"Maximum shear force: {max_shear}")
         return max_shear
+        
     except Exception as e:
         print(f"An error occurred while calculating the maximum shear force: {str(e)}")
         return 0
