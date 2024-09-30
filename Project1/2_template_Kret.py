@@ -1,3 +1,8 @@
+# Gabriel Kret
+# 09/29/2024
+#ME-371
+#Project 1 -- Beam Analysis -- Template 2
+
 import csv
 import math
 
@@ -12,6 +17,7 @@ def read_beam_data(filename):
     tuple: (length, width, height, elastic_modulus, loads)
     where loads is a list of tuples (position, magnitude)
     """
+    
     
     try:
         with open(filename, 'r') as file:
@@ -64,7 +70,7 @@ def calculate_bending_moment(length, loads):
         max_moment = max(bending_moments)
         print(f"Maximum bending moment: {max_moment}")
         return max_moment
-
+    
     except Exception as e:
         print(f"An error occurred while calculating the maximum bending moment: {str(e)}")
         return 0

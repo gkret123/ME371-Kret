@@ -1,3 +1,8 @@
+# Gabriel Kret
+# 09/29/2024
+#ME-371
+#Project 1 -- Mechanical Data -- Template 1
+
 import csv
 
 def read_mechanical_data(filename):
@@ -43,15 +48,23 @@ def calculate_velocity(position_data, time_step):
     Returns:
     list of tuples: List of (time, velocity) tuples
     """
-    velocity_data = []
-    for i in range(1, len(position_data)):
-        time = position_data[i][0]
-        position = position_data[i][1]
-        prev_time = position_data[i - 1][0]
-        prev_position = position_data[i - 1][1]
-        velocity = (position - prev_position) / (time - prev_time)
-        velocity_data.append((time, velocity))
-    return velocity_data
+    try:
+        velocity_data = []
+        for i in range(1, len(position_data)):
+            time = position_data[i][0]
+            position = position_data[i][1]
+            prev_time = position_data[i - 1][0]
+            prev_position = position_data[i - 1][1]
+            #v = (x - x0) / (t - t0)
+            velocity = (position - prev_position) / (time - prev_time)
+            velocity_data.append((time, velocity))
+        return velocity_data
+    except ZeroDivisionError:
+        print("Error: Time step cannot be zero.")
+        return []
+    except Exception as e:
+        print(f"An error occurred while calculating velocity: {str(e)}")
+        return []
 
 """-------------------------------------------------------------------------------------------------------------------------"""
 
@@ -67,15 +80,23 @@ def calculate_acceleration(velocity_data, time_step):
     list of tuples: List of (time, acceleration) tuples
     """
     acceleration_data = []
-    for i in range(1, len(velocity_data)):
-        
-        time = velocity_data[i][0]
-        velocity = velocity_data[i][1]
-        prev_time = velocity_data[i - 1][0]
-        prev_velocity = velocity_data[i - 1][1]
-        acceleration = (velocity - prev_velocity) / (time - prev_time)
-        acceleration_data.append((time, acceleration))
-    return acceleration_data
+    try:
+        for i in range(1, len(velocity_data)):
+            
+            time = velocity_data[i][0]
+            velocity = velocity_data[i][1]
+            prev_time = velocity_data[i - 1][0]
+            prev_velocity = velocity_data[i - 1][1]
+            #a = (v - v0) / (t - t0)
+            acceleration = (velocity - prev_velocity) / (time - prev_time)
+            acceleration_data.append((time, acceleration))
+        return acceleration_data
+    except ZeroDivisionError:
+        print("Error: Time step cannot be zero.")
+        return []
+    except Exception as e:
+        print(f"An error occurred while calculating acceleration: {str(e)}")
+        return []
     
 
 """-------------------------------------------------------------------------------------------------------------------------"""
@@ -89,16 +110,22 @@ def find_max_force(force_data):
     Returns:
     tuple: (time, max_force)
     """
-    max_force = 0.0
-    max_force_time = 0.0
-    for i in range(1, len(force_data)):
-        
-        time = force_data[i][0]
-        force = force_data[i][1]
-        if abs(force) > abs(max_force): 
-            max_force = force
-            max_force_time = time
-    return (max_force_time, max_force)
+    try:
+        max_force = 0.0
+        max_force_time = 0.0
+        for i in range(1, len(force_data)):
+            
+            time = force_data[i][0]
+            force = force_data[i][1]
+            #use abs to get the absolute value of the force i.e. max force from both sides
+            if abs(force) > abs(max_force): 
+                max_force = force
+                max_force_time = time
+        return (max_force_time, max_force)
+    
+    except Exception as e:
+        print(f"An error occurred while finding the maximum force: {str(e)}")
+        return (0.0, 0.0)
 
 """-------------------------------------------------------------------------------------------------------------------------"""
 
@@ -113,14 +140,19 @@ def calculate_work_done(force_data, position_data):
     Returns:
     float: Total work done
     """
-    work = 0.0
-    for i in range(1, len(force_data)):
-        position = position_data[i][1]
-        force = force_data[i][1]
-        prev_position = position_data[i-1][1]
-        distance = position - prev_position
-        work += force * distance
-    return work
+    try:
+        work = 0.0
+        for i in range(1, len(force_data)):
+            position = position_data[i][1]
+            force = force_data[i][1]
+            prev_position = position_data[i-1][1]
+            distance = position - prev_position
+            #work = force * distance
+            work += force * distance
+        return work
+    except Exception as e:
+        print(f"An error occurred while calculating the work done: {str(e)}")
+        return 0.0
     
 """-------------------------------------------------------------------------------------------------------------------------"""
 

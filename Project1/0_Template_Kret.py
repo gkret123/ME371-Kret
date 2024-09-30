@@ -61,9 +61,18 @@ def find_unique_genres(books):
     Returns:
         set: Set of unique genres
     """
-    unique_genres = {book['genre'] for book in books if 'genre' in book}
-    print("Unique genres found successfully! \n")
-    return unique_genres 
+    try:
+        unique_genres = {book['genre'] for book in books if 'genre' in book}
+        print("Unique genres found successfully! \n")
+        return unique_genres 
+    except KeyError:
+        print("Cannot find unique genres. Invalid key.")
+        return set()
+    except Exception as e:
+        print(f"Error finding unique genres: {e}")
+        return set()
+
+    """--------------------------------------------------------------------------------------------------------------------"""
 
 def filter_books_by_year(books, start_year, end_year):
     """
@@ -75,9 +84,19 @@ def filter_books_by_year(books, start_year, end_year):
     Returns:
         list of dict: Filtered list of book dictionaries
     """
-    books_in_range = list(filter(lambda x: int(x["year"]) <= end_year and int(x["year"]) >= start_year, books))
-    print("Books have been filtered by year successfully! \n")
-    return books_in_range
+    try:
+        books_in_range = list(filter(lambda x: int(x["year"]) <= end_year and int(x["year"]) >= start_year, books))
+        print("Books have been filtered by year successfully! \n")
+        return books_in_range
+    except KeyError:
+        print("Cannot filter by year. Invalid key.")
+        return []
+    except ValueError:
+        print("Cannot convert year to numeric value for filtering.")
+        return []
+    except Exception as e:
+        print(f"Error filtering books by year: {e}")
+        return []
 
 """--------------------------------------------------------------------------------------------------------------------"""
 
@@ -94,13 +113,15 @@ def sort_books(books, sort_by, reverse=False):
     try:
         sorted_books = sorted(books, key=lambda book: float(book[sort_by]), reverse=reverse) 
         print("Books have been sorted successfully! \n")
+        return sorted_books
+    
     except KeyError:
         print(f"Cannot sort by {sort_by}. Invalid key.")
         return []
     except ValueError:
         print(f"Cannot convert field {sort_by} to numeric value for sorting.")
         return []
-    return sorted_books
+    
 
 
 """--------------------------------------------------------------------------------------------------------------------"""
@@ -114,27 +135,29 @@ def find_most_prolific_author(books):
         str: Name of the most prolific author
     """
     author_count = {}
-
-    if not books:
-        print("The book list is empty. No prolific author found.")
-        return None
-    
-    for book in books:
-        author = book['author']
+    try:
+        if not books:
+            print("The book list is empty. No prolific author found.")
+            return None
         
-        if author in author_count:
-            author_count[author] += 1
-        
-        else:
-            author_count[author] = 1
+        for book in books:
+            author = book['author']
+            
+            if author in author_count:
+                author_count[author] += 1
+            
+            else:
+                author_count[author] = 1
 
-    if not author_count:
-        print("No valid authors found in the dataset.")
-        return None
-    
-    most_prolific_author = max(author_count, key=author_count.get)
-    print("Most prolific author has been found successfully! \n")
-    return most_prolific_author
+        if not author_count:
+            print("No valid authors found in the dataset.")
+            return None
+        
+        most_prolific_author = max(author_count, key=author_count.get)
+        print("Most prolific author has been found successfully! \n The most prolific author is: ", most_prolific_author, "\n")
+        return most_prolific_author
+    except Exception as e:
+        print(f"Error finding most prolific author: {e}")
 
 """--------------------------------------------------------------------------------------------------------------------"""
 
@@ -148,21 +171,24 @@ def calculate_average_price_by_genre(books):
     """
     genre_prices = {}
     genre_counts = {} 
+    try:
+        for book in books:
+            genre = book['genre']
+            price = float(book['price'])
+    #loop through the books and calc avg price for each genre
+            if genre in genre_counts:
+                genre_counts[genre] += 1
+                genre_prices[genre] += price
+            else: 
+                genre_counts[genre] = 1
+                genre_prices[genre] = price
 
-    for book in books:
-        genre = book['genre']
-        price = float(book['price'])
-
-        if genre in genre_counts:
-            genre_counts[genre] += 1
-            genre_prices[genre] += price
-        else: 
-            genre_counts[genre] = 1
-            genre_prices[genre] = price
-
-    average_prices = {genre: format(float(genre_prices[genre] / genre_counts[genre]), '.2f') for genre in genre_prices}
-    print("Average prices by genre have been calculated successfully! \n")
-    return average_prices
+        average_prices = {genre: format(float(genre_prices[genre] / genre_counts[genre]), '.2f') for genre in genre_prices}
+        print("Average prices by genre have been calculated successfully! \n")
+        return average_prices
+    except ZeroDivisionError:
+        print("Cannot calculate average price for genre with no books.")
+        return {}
 
 """--------------------------------------------------------------------------------------------------------------------"""
 
@@ -173,10 +199,17 @@ def generate_book_report(books, output_filename):
         books (list of dict): List of book dictionaries
         output_filename (str): Name of the output text file
     """
-    with open(output_filename, 'w') as file:
-        for book in books:
-            file.write(str(book) + '\n')
-    print("Book report has been generated successfully! \n")
+    try:
+        with open(output_filename, 'w') as file:
+            for book in books:
+                file.write(str(book) + '\n')
+        print("Book report has been generated successfully! \n")
+
+    except FileNotFoundError:
+        print(f"Error writing to file {output_filename}.")
+    except Exception as e:
+        print(f"Error generating book report: {e}")
+
 
 """--------------------------------------------------------------------------------------------------------------------"""
 
