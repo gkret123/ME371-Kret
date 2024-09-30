@@ -49,11 +49,11 @@ def calculate_bending_moment(length, loads):
 
         for i in range(len(loads)):
             loads[i] = (float(loads[i][0]), float(loads[i][1]))
-    
+        # calc reactions
         R1 = sum(load[1] * (length - load[0]) / length for load in loads)
         R2 = sum(load[1] * load[0] / length for load in loads)
         print(f"Calculated reaction forces: R1 = {R1}, R2 = {R2}")
-
+        # dont include R1 or R2 in the bending moments b/c moments arm is 0
         bending_moments = []
         for load in loads:
             x = load[0]
@@ -84,13 +84,15 @@ def calculate_shear_force(length, loads):
     try:
         for i in range(len(loads)):
             loads[i] = (float(loads[i][0]), float(loads[i][1]))
-
+        # calc reactions
         R1 = sum(load[1] * (length - load[0]) / length for load in loads)
         R2 = sum(load[1] * load[0] / length for load in loads)
 
-        shear_forces = []
+        # R1 and R2 are reaction forces at ends AND are representative of the shears
+        shear_forces = [R1, R2]
         for load in loads:
             x = load[0]
+            # V = R1 - sum of all loads left of x
             V = R1 - sum(load_dist[1] for load_dist in loads if load_dist[0] < x)
             shear_forces.append(V)
             print(f"Shear force at position {x}: {V}")
@@ -118,11 +120,15 @@ def calculate_max_bending_stress(max_moment, moment_of_inertia, y_max):
     float: Maximum bending stress
     """
     try:
+        #sigma = M * y / I
         max_bending_stress = max_moment * y_max / moment_of_inertia
         return max_bending_stress
     
     except ZeroDivisionError:
         print("Error: Moment of Inertia cannot be zero.")
+        return 0
+    except Exception as e:
+        print(f"An error occurred while calculating the maximum bending stress: {str(e)}")
         return 0
 
 """-----------------------------------------------------------------------------------------------------------------"""
@@ -146,7 +152,10 @@ def calculate_max_shear_stress(max_shear, first_moment, moment_of_inertia, width
         return tau
     
     except ZeroDivisionError:
-        print("Error: Width and/ or Moment of Inertia cannot be zero.")
+        print("Error: Width and/or Moment of Inertia cannot be zero.")
+        return 0
+    except Exception as e:
+        print(f"An error occurred while calculating the maximum shear stress: {str(e)}")
         return 0
 
 """-----------------------------------------------------------------------------------------------------------------"""
@@ -164,18 +173,47 @@ def calculate_max_deflection(length, loads, elastic_modulus, moment_of_inertia):
     Returns:
     float: Maximum deflection
     """
-    max_deflection = 0.0
     try:
-        for position, magnitude in loads:
-            
-            #delta= P*x*(L−x)^2 / (6*E*I*L) (From Beer and Johnston, Mechanics of Materials)
-            deflection = (magnitude * position * (length - position) * (3 * length - position)) / (6 * elastic_modulus * moment_of_inertia * length)
-            max_deflection += deflection
-        print(f"Maximum deflection: {max_deflection}")
-        return max_deflection
+    # homemade linspace func
+        start = 0.0
+        stop = length
+        step = 0.01  
+        x_values = []
+        current = start
+        while current <= stop:
+            x_values.append(round(current, 2))
+            current += step
+        
+        total_deflection = [0.0 for _ in x_values]
+        E = elastic_modulus
+        I = moment_of_inertia
+        L = length
 
+        for load in loads:
+            a = load[0]
+            b = L - a
+            P = load[1]
+
+            for id_x, x in enumerate(x_values):
+                if x <= a:
+                    y = ((P * b) / (6 * E * I * L)) * (x**3 - (L**2 - b**2)*x)
+                else:  # x > a
+                    y = ((P * a) / (6 * E * I * L)) * ((L-x)**3 - ((L**2 - a**2)*(L-x)))
+                print(f"Deflection at load {load} x = {x}: {y}")
+                total_deflection[id_x] += y  # sum deflections from all loads at each point on beam
+            
+        # Find the maximum deflection
+        max_defl = min(total_deflection)
+        max_defl_idx = total_deflection.index(max_defl)
+        x_max = x_values[max_defl_idx]
+        print(f"Maximum deflection: {max_defl} meters at x = {x_max} meters")
+        
+        return max_defl
     except ZeroDivisionError:
-        print("Error: Moment of inertia cannot be zero.")
+        print("Error: Moment of Inertia, Modulus of Elasticity, and/or Length cannot be zero.")
+        return 0
+    except Exception as e: 
+        print(f"An error occurred while calculating the maximum deflection: {str(e)}")
         return 0
 
 """-----------------------------------------------------------------------------------------------------------------"""

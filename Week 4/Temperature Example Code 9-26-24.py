@@ -20,12 +20,6 @@ for i in range(len(mask)):
     if mask[i]:
         print(f"{days[i]} is above average")
 
-#calculate 3 day moving average of the temperature using np.convolve and plot with matplotlib
-import matplotlib.pyplot as plt
-moving_avg = np.convolve(temps, np.ones(3)/3, mode='valid')
-plt.plot(moving_avg)
-plt.show()
-
 
     
         
