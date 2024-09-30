@@ -43,12 +43,13 @@ def calculate_discount_price(books, discount_rate):
     try:
         for book in books:
             book["price"] = format((float(book["price"]) - (float(book["price"]) * (discount_rate))),'.2f')
-
+        print("Discount price has been calculated successfully! \n")
+        return books
+    
     except (KeyError, ValueError):
         print(f"Skipping book {book.get('title', 'Unknown')} due to invalid or missing price.")
 
-    print("Discount price has been calculated successfully! \n")
-    return books
+
 
 
     """--------------------------------------------------------------------------------------------------------------------"""
@@ -64,7 +65,8 @@ def find_unique_genres(books):
     try:
         unique_genres = {book['genre'] for book in books if 'genre' in book}
         print("Unique genres found successfully! \n")
-        return unique_genres 
+        return unique_genres
+     
     except KeyError:
         print("Cannot find unique genres. Invalid key.")
         return set()
@@ -88,6 +90,7 @@ def filter_books_by_year(books, start_year, end_year):
         books_in_range = list(filter(lambda x: int(x["year"]) <= end_year and int(x["year"]) >= start_year, books))
         print("Books have been filtered by year successfully! \n")
         return books_in_range
+    
     except KeyError:
         print("Cannot filter by year. Invalid key.")
         return []
@@ -156,6 +159,7 @@ def find_most_prolific_author(books):
         most_prolific_author = max(author_count, key=author_count.get)
         print("Most prolific author has been found successfully! \n The most prolific author is: ", most_prolific_author, "\n")
         return most_prolific_author
+    
     except Exception as e:
         print(f"Error finding most prolific author: {e}")
 
@@ -186,6 +190,7 @@ def calculate_average_price_by_genre(books):
         average_prices = {genre: format(float(genre_prices[genre] / genre_counts[genre]), '.2f') for genre in genre_prices}
         print("Average prices by genre have been calculated successfully! \n")
         return average_prices
+    
     except ZeroDivisionError:
         print("Cannot calculate average price for genre with no books.")
         return {}
