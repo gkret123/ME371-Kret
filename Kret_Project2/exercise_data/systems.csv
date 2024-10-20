@@ -1,0 +1,21 @@
+system_id,system_name,system_type,description
+1,Advanced Control System 1,Fuzzy Logic,This system is designed for temperature control in industrial applications.
+2,Advanced Control System 2,PID,This system is designed for level control in industrial applications.
+3,Advanced Control System 3,Fuzzy Logic,This system is designed for humidity control in industrial applications.
+4,Advanced Control System 4,Adaptive,This system is designed for level control in industrial applications.
+5,Advanced Control System 5,PID,This system is designed for flow control in industrial applications.
+6,Advanced Control System 6,Sliding Mode,This system is designed for temperature control in industrial applications.
+7,Advanced Control System 7,PID,This system is designed for flow control in industrial applications.
+8,Advanced Control System 8,PID,This system is designed for temperature control in industrial applications.
+9,Advanced Control System 9,PID,This system is designed for temperature control in industrial applications.
+10,Advanced Control System 10,Fuzzy Logic,This system is designed for flow control in industrial applications.
+11,Advanced Control System 11,PID,This system is designed for humidity control in industrial applications.
+12,Advanced Control System 12,Fuzzy Logic,This system is designed for pressure control in industrial applications.
+13,,Model Predictive,This system is designed for temperature control in industrial applications.
+14,Advanced Control System 14,PID,This system is designed for level control in industrial applications.
+15,Advanced Control System 15,Model Predictive,This system is designed for flow control in industrial applications.
+16,Advanced Control System 16,Model Predictive,This system is designed for temperature control in industrial applications.
+17,Advanced Control System 17,Sliding Mode,This system is designed for temperature control in industrial applications.
+18,Advanced Control System 18,Fuzzy Logic,This system is designed for flow control in industrial applications.
+,Advanced Control System 19,Model Predictive,This system is designed for flow control in industrial applications.
+20,Advanced Control System 20,Adaptive,This system is designed for level control in industrial applications.

@@ -1,0 +1,11 @@
+fluid_id,fluid_name,density,viscosity,specific_heat
+1,Water,1000.0,1.0,4184
+2,Air,1.225,0.0181,1005
+3,Oil,850.0,10.0,2000
+4,Ethanol,789.0,1.2,2400
+5,Glycerin,1260.0,1500.0,2400
+6,Mercury,13546.0,1.55,138
+7,Acetone,784.0,0.32,2180
+8,Benzene,876.0,0.65,1680
+9,Propylene Glycol,1030.0,60.0,2500
+10,Liquid Nitrogen,804.0,0.1,1040
